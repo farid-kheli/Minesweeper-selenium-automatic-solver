@@ -1,4 +1,4 @@
-from selenium import webdriver
+from selenium import webdriver #ignore
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
@@ -100,16 +100,18 @@ def checke(i, j, num):
     if num == 0:
         for f in range(k):
             driver.find_element(By.ID, GetID(array[f],array2[f])).click()
+        tabel.remove(GetID(i,j))
     elif k == num:
         for f in range(k):
             element = driver.find_element(By.ID, GetID(array[f], array2[f]))
             actions.context_click(element).perform()
+        tabel.remove(GetID(i,j))
 
 print(GetID(7, 7))
 
 
 
-driver.maximize_window()
+#driver.maximize_window()
 
 actions = ActionChains(driver)
 
@@ -146,7 +148,13 @@ def method1():
             print(GetI(i),GetJ(i)) 
 
 
-
+def newtabel(tabel):
+    for i in range(16):
+        for j in range(16):
+            tabel.append(GetID(i,j))
+    # end for
+    return tabel
+    
 def method2():
     driver.find_element(By.ID, GetID(0,0)).click()
     while Situation() == "u":
@@ -165,8 +173,26 @@ def method2():
             i = i + 1
         Situation()
         
-
-method1()
+def method3():
+    driver.find_element(By.ID, GetID(7, 7)).click()
+    driver.find_element(By.ID, GetID(7, 6)).click()
+    driver.find_element(By.ID, GetID(8, 6)).click()
+    driver.find_element(By.ID, GetID(8, 7)).click()
+    driver.find_element(By.ID, GetID(9, 7)).click()
+    driver.find_element(By.ID, GetID(9, 8)).click()
+    Situation()
+    while Situation() == "u":
+        i=0
+        while(i<len(tabel)):
+            print(len(tabel))
+            if(defien(int(tabel[i].split('_')[1]),int(tabel[i].split('_')[2]))=='o'and len(driver.find_element(By.ID, tabel[i]).get_attribute('class')) > 30):
+                checke(int(tabel[i].split('_')[1]),int(tabel[i].split('_')[2]), int(driver.find_element(By.ID, tabel[i]).get_attribute('class')[31]))
+            i+=1
+        # end for
+        
+tabel=[]
+tabel=newtabel(tabel)
+method3()
 
 
 
